@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CRUD Application</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        table, th, td {
+            border: 1px solid black;
+        }
+        th, td {
+            padding: 15px;
+            text-align: left;
+        }
+    </style>
+</head>
+<body>
+    <h1>CRUD Application</h1>
+    <form action="/add" method="POST">
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" required>
+        <label for="description">Description:</label>
+        <textarea id="description" name="description" required></textarea>
+        <button type="submit">Add</button>
+    </form>
+
+    <h2>Items</h2>
+    <table id="items-table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Items will be populated here by JavaScript -->
+        </tbody>
+    </table>
+
+    <script>
+        async function fetchItems() {
+            const response = await fetch('/items');
+            const items = await response.json();
+            const tableBody = document.querySelector('#items-table tbody');
+            tableBody.innerHTML = '';
+            items.forEach(item => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${item.id}</td>
+                    <td>${item.name}</td>
+                    <td>${item.description}</td>
+                    <td>
+                        <form action="/update" method="POST" style="display:inline;">
+                            <input type="hidden" name="id" value="${item.id}">
+                            <input type="text" name="name" value="${item.name}" required>
+                            <textarea name="description" required>${item.description}</textarea>
+                            <button type="submit">Update</button>
+                        </form>
+                        <form action="/delete" method="POST" style="display:inline;">
+                            <input type="hidden" name="id" value="${item.id}">
+                            <button type="submit">Delete</button>
+                        </form>
+                    </td>
+                `;
+                tableBody.appendChild(row);
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', fetchItems);
+    </script>
+</body>
+</html>
