@@ -121,8 +121,10 @@
     </table>
 
     <script>
+        const backendURL = 'https://crud-production-8ce2.up.railway.app';
+
         async function fetchItems() {
-            const response = await fetch('/items');
+            const response = await fetch(`${backendURL}/items`);
             const items = await response.json();
             const tableBody = document.querySelector('#items-table tbody');
             tableBody.innerHTML = '';
@@ -133,13 +135,13 @@
                     <td>${item.name}</td>
                     <td>${item.description}</td>
                     <td>
-                        <form action="/update" method="POST" style="display:inline;">
+                        <form action="${backendURL}/update" method="POST" style="display:inline;">
                             <input type="hidden" name="id" value="${item.id}">
                             <input type="text" name="name" value="${item.name}" required>
                             <textarea name="description" required>${item.description}</textarea>
                             <button type="submit">Update</button>
                         </form>
-                        <form action="/delete" method="POST" style="display:inline;">
+                        <form action="${backendURL}/delete" method="POST" style="display:inline;">
                             <input type="hidden" name="id" value="${item.id}">
                             <button type="submit">Delete</button>
                         </form>
@@ -152,7 +154,7 @@
         document.getElementById('add-form').addEventListener('submit', async (e) => {
             e.preventDefault();
             const formData = new FormData(e.target);
-            const response = await fetch('/add', {
+            const response = await fetch(`${backendURL}/add`, {
                 method: 'POST',
                 body: new URLSearchParams(formData)
             });
