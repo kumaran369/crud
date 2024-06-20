@@ -13,10 +13,10 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // MySQL connection
 const connection = mysql.createConnection({
-    host: monorail.proxy.rlwy.net,
-    user: root,
-    password: PvwNXiBCDTYSksYgrHDQhpuuRbzDMjtC,
-    database: crud_db,
+    host: 'monorail.proxy.rlwy.net',
+    user: 'root',
+    password: 'PvwNXiBCDTYSksYgrHDQhpuuRbzDMjtC',
+    database: 'crud_db',
     port: 10792
 });
 
@@ -27,7 +27,7 @@ connection.connect((err) => {
 
 // Routes
 app.get('/', (req, res) => {
-    res.sendFile(__dirname + '/index.html');
+    res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
 // Create
