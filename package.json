@@ -1,7 +1,7 @@
 {
-  "name": "mysql-crud",
+  "name": "crud-application",
   "version": "1.0.0",
-  "description": "A simple CRUD application with Node.js and MySQL",
+  "description": "A simple CRUD application",
   "main": "server.js",
   "scripts": {
     "start": "node server.js"
@@ -10,12 +10,12 @@
     "body-parser": "^1.19.0",
     "cors": "^2.8.5",
     "express": "^4.17.1",
-    "mysql": "^2.18.1"
+    "mysql2": "^2.2.5",
+    "path": "^0.12.7"
   },
   "engines": {
     "node": ">=14.0.0"
   },
-  "keywords": [],
   "author": "",
   "license": "ISC"
 }

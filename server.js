@@ -2,7 +2,7 @@ const express = require('express');
 const mysql = require('mysql2');
 const bodyParser = require('body-parser');
 const path = require('path');
-const cors = require('cors'); // Import the cors package
+const cors = require('cors');
 const app = express();
 
 // Middleware
@@ -11,15 +11,13 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 // Configure CORS
 app.use(cors({
-    origin: 'https://crud-git-master-kumaran369s-projects.vercel.app', // Replace with your frontend URL
+    origin: 'https://crud-git-master-kumaran369s-projects.vercel.app',
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     credentials: true
 }));
 
 // Serve the frontend
-app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'index.html'));
-});
+app.use(express.static(path.join(__dirname, 'public')));
 
 // MySQL connection
 const connection = mysql.createConnection({
