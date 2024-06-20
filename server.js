@@ -2,11 +2,19 @@ const express = require('express');
 const mysql = require('mysql2');
 const bodyParser = require('body-parser');
 const path = require('path');
+const cors = require('cors'); // Import the cors package
 const app = express();
 
 // Middleware
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+
+// Configure CORS
+app.use(cors({
+    origin: 'https://crud-git-master-kumaran369s-projects.vercel.app', // Replace with your frontend URL
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    credentials: true
+}));
 
 // Serve the frontend
 app.get('/', (req, res) => {
@@ -27,7 +35,7 @@ connection.connect((err) => {
     console.log('Connected to MySQL Database.');
 });
 
-// Create
+// Routes
 app.post('/add', (req, res) => {
     const { name, description } = req.body;
     connection.query('INSERT INTO items (name, description) VALUES (?, ?)', [name, description], (err, result) => {
@@ -40,7 +48,6 @@ app.post('/add', (req, res) => {
     });
 });
 
-// Read
 app.get('/items', (req, res) => {
     connection.query('SELECT * FROM items', (err, results) => {
         if (err) {
@@ -52,7 +59,6 @@ app.get('/items', (req, res) => {
     });
 });
 
-// Update
 app.post('/update', (req, res) => {
     const { id, name, description } = req.body;
     connection.query('UPDATE items SET name = ?, description = ? WHERE id = ?', [name, description, id], (err, result) => {
@@ -65,7 +71,6 @@ app.post('/update', (req, res) => {
     });
 });
 
-// Delete
 app.post('/delete', (req, res) => {
     const { id } = req.body;
     connection.query('DELETE FROM items WHERE id = ?', [id], (err, result) => {
