@@ -97,7 +97,7 @@
 </head>
 <body>
     <h1>CRUD Application</h1>
-    <form action="https://crud-production-8ce2.up.railway.app/add" method="POST">
+    <form id="add-form" action="https://crud-production-8ce2.up.railway.app/add" method="POST">
         <label for="name">Name:</label>
         <input type="text" id="name" name="name" required>
         <label for="description">Description:</label>
@@ -122,19 +122,8 @@
 
     <script>
         async function fetchItems() {
-            try {
-                const response = await fetch('https://crud-production-8ce2.up.railway.app/items');
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
-                const items = await response.json();
-                populateTable(items);
-            } catch (error) {
-                console.error('Error fetching items:', error);
-            }
-        }
-
-        function populateTable(items) {
+            const response = await fetch('https://crud-production-8ce2.up.railway.app/items');
+            const items = await response.json();
             const tableBody = document.querySelector('#items-table tbody');
             tableBody.innerHTML = '';
             items.forEach(item => {
@@ -161,6 +150,16 @@
         }
 
         document.addEventListener('DOMContentLoaded', fetchItems);
+
+        document.getElementById('add-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const formData = new FormData(e.target);
+            await fetch('https://crud-production-8ce2.up.railway.app/add', {
+                method: 'POST',
+                body: formData
+            });
+            fetchItems(); // Refresh the list of items
+        });
     </script>
 </body>
 </html>
